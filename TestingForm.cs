@@ -10,7 +10,9 @@ namespace VariousTesting
 		private Test[] tests;
 		private GroupBox radios = new GroupBox(), checks = new GroupBox();
 		private TextBox text = new TextBox();
-		private int current_test_index = 0;
+		private Timer timer = new Timer();
+		private int current_test_index = 0, seconds_left = 90;
+		private Color time_color = Color.Black;
 		public TestingForm()
 		{
 			InitializeComponent();
@@ -42,8 +44,25 @@ namespace VariousTesting
 			Controls.Add(checks);
 			Controls.Add(text);
 
+			timer.Tick += Timer_Tick;
+			Timer_Tick(null, null);
+			timer.Interval = 1000;
+			timer.Start();
+
 			UpdateCurrentQuestion();
 			prev.Visible = false;
+		}
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			if (seconds_left <= 10)
+				time.ForeColor = time_color = time_color == Color.Black ? Color.Red : Color.Black;
+			time.Text = TimeSpan.FromSeconds(seconds_left).ToString("mm\\:ss");
+			if (seconds_left-- == 0)
+			{
+				timer.Stop();
+				ShowResult();
+				Close();
+			}
 		}
 		private void UpdateCurrentQuestion()
 		{
@@ -60,7 +79,9 @@ namespace VariousTesting
 		{
 			if ((sender as Button) == next && current_test_index == tests.Length - 1)
 			{
-				MessageBox.Show($"Correct answers: {tests.Count(t => t.IsCorrect)} / {tests.Length}");
+				timer.Stop();
+				ShowResult();
+				timer.Start();
 				return;
 			}
 			tests[current_test_index].Ctrl.Visible = false;
@@ -68,6 +89,10 @@ namespace VariousTesting
 			UpdateCurrentQuestion();
 			prev.Visible = current_test_index != 0;
 			next.Text = current_test_index != tests.Length - 1 ? "Next" : "Finish";
+		}
+		private void ShowResult()
+		{
+			MessageBox.Show($"Correct answers: {tests.Count(t => t.IsCorrect)} / {tests.Length}");
 		}
 	}
 }

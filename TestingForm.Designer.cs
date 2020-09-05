@@ -32,6 +32,7 @@
 			this.prev = new System.Windows.Forms.Button();
 			this.count = new System.Windows.Forms.Label();
 			this.question = new System.Windows.Forms.Label();
+			this.time = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// next
@@ -71,11 +72,21 @@
 			this.question.TabIndex = 3;
 			this.question.Text = "<question>";
 			// 
+			// time
+			// 
+			this.time.AutoSize = true;
+			this.time.Location = new System.Drawing.Point(453, 9);
+			this.time.Name = "time";
+			this.time.Size = new System.Drawing.Size(38, 13);
+			this.time.TabIndex = 4;
+			this.time.Text = "<time>";
+			// 
 			// TestingForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(500, 288);
+			this.Controls.Add(this.time);
 			this.Controls.Add(this.question);
 			this.Controls.Add(this.count);
 			this.Controls.Add(this.prev);
@@ -94,5 +105,6 @@
 		private System.Windows.Forms.Button prev;
 		private System.Windows.Forms.Label count;
 		private System.Windows.Forms.Label question;
+		private System.Windows.Forms.Label time;
 	}
 }
